@@ -1,4 +1,5 @@
 {
+    "name": "pablok/nvfc",
     "license": "MIT",
     "require": {
         "php": "^7.2",
