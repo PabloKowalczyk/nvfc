@@ -5,6 +5,6 @@ use Symfony\Component\Console\Application;
 
 require \dirname(__DIR__) . '/vendor/autoload.php';
 
-$application = new Application('NVidia Fan Controller');
+$application = new Application('NVidia Fan Controller', 'v0.1.1');
 $application->add(new \NvFanController\UserInterface\WatchCommand());
 $application->run();
