@@ -3,7 +3,46 @@
 
 use Symfony\Component\Console\Application;
 
-require \dirname(__DIR__) . '/vendor/autoload.php';
+$generatePath = static function (string ...$parts) {
+    return \implode(DIRECTORY_SEPARATOR, $parts);
+};
+$autoloadPaths = [
+    // Dependency
+    $generatePath(
+        \dirname(__DIR__, 3),
+        'autoload.php'
+    ),
+    // Vendor/Bin
+    $generatePath(
+        \dirname(__DIR__, 2),
+        'autoload.php'
+    ),
+    // Local dev
+    $generatePath(
+        \dirname(__DIR__),
+        'vendor',
+        'autoload.php'
+    ),
+];
+
+$autoloadFileFound = false;
+
+foreach ($autoloadPaths as $autoloadPath) {
+    if (\file_exists($autoloadPath)) {
+        require_once $autoloadPath;
+        $autoloadFileFound = true;
+        break;
+    }
+}
+
+if ($autoloadFileFound === false) {
+    throw new RuntimeException(
+        \sprintf(
+            'Unable to find "autoload.php" file in paths: "%s".',
+            \implode('", "', $autoloadPaths)
+        )
+    );
+}
 
 $application = new Application('NVidia Fan Controller', 'v0.1.1');
 $application->add(new \NvFanController\UserInterface\WatchCommand());
