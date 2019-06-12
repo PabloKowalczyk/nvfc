@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.2] - 2019-06-12
+
+### Fixed
+
+- [#5] Fix missing autoloader
+
 ## [v0.1.1] - 2019-06-11
 
 ### Fixed
@@ -23,9 +29,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `list` command
 
 
-[Unreleased]: https://github.com/PabloKowalczyk/nvfc/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/PabloKowalczyk/nvfc/compare/v0.1.2...HEAD
 [#1]: https://github.com/PabloKowalczyk/nvfc/pull/1
 [#2]: https://github.com/PabloKowalczyk/nvfc/pull/2
 [#3]: https://github.com/PabloKowalczyk/nvfc/pull/3
+[#5]: https://github.com/PabloKowalczyk/nvfc/pull/5
+[v0.1.2]: https://github.com/PabloKowalczyk/nvfc/releases/tag/v0.1.2
 [v0.1.1]: https://github.com/PabloKowalczyk/nvfc/releases/tag/v0.1.1
 [v0.1.0]: https://github.com/PabloKowalczyk/nvfc/releases/tag/v0.1.0
