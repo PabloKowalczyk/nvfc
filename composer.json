@@ -1,18 +1,26 @@
 {
     "name": "pablok/nvfc",
+    "description": "Fan speed controller for Nvidia graphic cards",
+    "keywords": [
+        "reactphp",
+        "nvidia-gpu-fan-control",
+        "nvidia-gpu-fan-speed",
+        "fan-controller"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "symfony/process": "^4.2",
-        "symfony/console": "^4.2",
-        "react/event-loop": "^1.1",
         "react/child-process": "^0.6.1",
-        "react/stream": "^1.1"
+        "react/event-loop": "^1.1",
+        "react/stream": "^1.1",
+        "symfony/console": "^4.2",
+        "symfony/process": "^4.2"
     },
     "require-dev": {
+        "localheinz/composer-normalize": "^1.2",
+        "phpunit/phpunit": "^8.2",
         "roave/security-advisories": "dev-master",
-        "symfony/var-dumper": "^4.2",
-        "phpunit/phpunit": "^8.2"
+        "symfony/var-dumper": "^4.2"
     },
     "autoload": {
         "psr-4": {
