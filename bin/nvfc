@@ -38,7 +38,7 @@ foreach ($autoloadPaths as $autoloadPath) {
 if ($autoloadFileFound === false) {
     throw new RuntimeException(
         \sprintf(
-            'Unable to find "vendor/autoload.php" in "%s" paths.',
+            'Unable to find "autoload.php" file in paths: "%s".',
             \implode('", "', $autoloadPaths)
         )
     );
