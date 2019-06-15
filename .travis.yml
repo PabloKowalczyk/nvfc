@@ -17,6 +17,7 @@ matrix:
         - php: '7.3'
           env:
               - STATIC_CHECKS="1"
+              - DEPENDENCIES='lock'
 
 env:
     matrix:
