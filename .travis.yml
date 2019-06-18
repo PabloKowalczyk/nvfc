@@ -1,0 +1,54 @@
+language: php
+
+git:
+    depth: 1
+
+php:
+    - '7.2'
+    - '7.3'
+    - '7.4snapshot'
+
+matrix:
+    fast_finish: true
+    include:
+        - php: '7.3'
+          env:
+              - DEPENDENCIES='lock'
+        - php: '7.3'
+          env:
+              - STATIC_CHECKS="1"
+              - DEPENDENCIES='lock'
+
+env:
+    matrix:
+        - DEPENDENCIES="high"
+        - DEPENDENCIES="low"
+    global:
+        - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-progress --no-suggest --prefer-dist -a"
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+before_install:
+    - phpenv config-rm xdebug.ini || return 0;
+    - composer self-update
+    - composer global require hirak/prestissimo -a
+
+install:
+    - if [[ "$DEPENDENCIES" = 'high' ]]; then
+        travis_retry composer update $DEFAULT_COMPOSER_FLAGS;
+      fi
+    - if [[ "$DEPENDENCIES" = 'lock' ]]; then
+        travis_retry composer install $DEFAULT_COMPOSER_FLAGS;
+      fi
+    - if [[ "$DEPENDENCIES" = 'low' ]]; then
+        travis_retry composer update $DEFAULT_COMPOSER_FLAGS --prefer-lowest;
+      fi
+
+script:
+    - if [[ "$STATIC_CHECKS" = '1' ]]; then
+        composer normalize --dry-run;
+        exit 0;
+      fi
+    - vendor/bin/phpunit
