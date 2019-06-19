@@ -9,6 +9,7 @@ use NvFanController\Application\Interval;
 use NvFanController\Application\Temperature;
 use NvFanController\FanController;
 use NvFanController\FanSpeed\LinearFanSpeedCalculator;
+use NvFanController\Infrastructure\React\Promise\ReactPromiseFactory;
 use NvFanController\Infrastructure\ReactNvidiaSettings;
 use React\EventLoop\Factory;
 use React\Stream\WritableResourceStream;
@@ -88,11 +89,13 @@ final class WatchCommand extends Command
             $endFanSpeed->toInteger()
         );
         $writeStream = new WritableResourceStream(STDOUT, $loop);
+        $promiseFactory = new ReactPromiseFactory();
         $fanController = new FanController(
             $fanSpeedCalculator,
             $loop,
             $writeStream,
-            $nvidiaSettings
+            $nvidiaSettings,
+            $promiseFactory
         );
 
         $loop->addTimer(0, $fanController);
