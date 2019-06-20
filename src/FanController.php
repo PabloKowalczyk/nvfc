@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace NvFanController;
 
+use NvFanController\Application\FanSpeed\FanSpeedCalculator;
 use NvFanController\Application\NvidiaSettingsInterface;
 use NvFanController\Application\Promise\PromiseFactoryInterface;
-use NvFanController\FanSpeed\FanSpeedCalculator;
 use React\ChildProcess\Process;
 use React\EventLoop\LoopInterface;
 use React\Stream\WritableStreamInterface;
