@@ -48,7 +48,7 @@ install:
 
 script:
     - if [[ "$STATIC_CHECKS" = '1' ]]; then
-        composer normalize --dry-run;
+        composer app:checks;
         exit 0;
       fi
     - vendor/bin/phpunit
