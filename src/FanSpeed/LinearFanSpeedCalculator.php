@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NvFanController\FanSpeed;
 
-use NvFanController\Application\FanSpeed;
+use NvFanController\Application\FanSpeed\FanSpeed;
 
 final class LinearFanSpeedCalculator implements FanSpeedCalculator
 {

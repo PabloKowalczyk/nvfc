@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NvFanController\Infrastructure;
 
-use NvFanController\Application\FanSpeed;
+use NvFanController\Application\FanSpeed\FanSpeed;
 use NvFanController\Application\NvidiaSettingsInterface;
 use React\EventLoop\LoopInterface;
 use RuntimeException;

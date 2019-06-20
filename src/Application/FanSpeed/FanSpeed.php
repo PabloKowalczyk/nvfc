@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NvFanController\Application;
+namespace NvFanController\Application\FanSpeed;
 
 final class FanSpeed
 {

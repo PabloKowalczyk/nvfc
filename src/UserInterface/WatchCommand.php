@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NvFanController\UserInterface;
 
-use NvFanController\Application\FanSpeed;
+use NvFanController\Application\FanSpeed\FanSpeed;
 use NvFanController\Application\Interval;
 use NvFanController\Application\Temperature;
 use NvFanController\FanController;
