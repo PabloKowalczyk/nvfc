@@ -35,7 +35,7 @@ foreach ($autoloadPaths as $autoloadPath) {
     }
 }
 
-if ($autoloadFileFound === false) {
+if (false === $autoloadFileFound) {
     throw new RuntimeException(
         \sprintf(
             'Unable to find "autoload.php" file in paths: "%s".',

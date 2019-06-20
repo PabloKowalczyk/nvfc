@@ -22,7 +22,7 @@ final class WatchCommand extends Command
 {
     protected static $defaultName = 'watch';
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Monitor temperature and set fan speed accordingly')

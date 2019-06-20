@@ -28,7 +28,8 @@ final class ReactPromise implements PromiseInterface
         return new self($promise);
     }
 
-    public function then(callable $onFulfilled = null, callable $onRejected = null): PromiseInterface {
+    public function then(callable $onFulfilled = null, callable $onRejected = null): PromiseInterface
+    {
         $promise = $this->promise
             ->then($onFulfilled, $onRejected);
 

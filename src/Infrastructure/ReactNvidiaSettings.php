@@ -31,7 +31,7 @@ final class ReactNvidiaSettings implements NvidiaSettingsInterface
         );
         $version = $matches['version'] ?? '';
 
-        if ($exitCode !== 0 || $hasVersion !== 1 || $version === '') {
+        if (0 !== $exitCode || 1 !== $hasVersion || '' === $version) {
             throw new RuntimeException('Unable to check "nvidia-settings" version.');
         }
 
@@ -48,7 +48,7 @@ final class ReactNvidiaSettings implements NvidiaSettingsInterface
         $exitCode = $enableFanSpeedControl->getExitCode();
         $enableFanSpeedControlOutput = \trim($enableFanSpeedControl->getOutput());
 
-        if ($exitCode !== 0 || \preg_match("@^Attribute 'GPUFanControlState' \(.*\) assigned value 1\.$@", $enableFanSpeedControlOutput) !== 1) {
+        if (0 !== $exitCode || 1 !== \preg_match("@^Attribute 'GPUFanControlState' \(.*\) assigned value 1\.$@", $enableFanSpeedControlOutput)) {
             throw new RuntimeException('Unable to enable fan control');
         }
     }
@@ -56,7 +56,7 @@ final class ReactNvidiaSettings implements NvidiaSettingsInterface
     public function changeFanSpeed(FanSpeed $fanSpeed): void
     {
         $changeFanSpeed = new \React\ChildProcess\Process("nvidia-settings -a \"GPUTargetFanSpeed={$fanSpeed->toString()}\" 2>&1 >/dev/null");
-        $changeFanSpeed->on('error', static function () {
+        $changeFanSpeed->on('error', static function (): void {
             throw new \Exception('Unable to change fan speed');
         });
         $changeFanSpeed->start($this->loop);

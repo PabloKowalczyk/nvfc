@@ -40,11 +40,11 @@ final class FanController
 
     public function __invoke(): void
     {
-        $resolver = function (callable $resolve, callable $reject) {
+        $resolver = function (callable $resolve, callable $reject): void {
             $temp = '';
             $process = new Process("nvidia-settings -q GPUCoreTemp |awk -F \":\" 'NR==2{print $3}' |sed 's/[^0-9]*//g'");
             $process->start($this->loop);
-            $process->stdout->on('data', static function (string $chunk) use (&$temp) {
+            $process->stdout->on('data', static function (string $chunk) use (&$temp): void {
                 $temp .= \trim($chunk);
             });
 
@@ -58,7 +58,7 @@ final class FanController
         $promise = $this->promiseFactory
             ->create($resolver);
         $promise->then(
-            function (string $temp) {
+            function (string $temp): void {
                 $tempInt = (int) $temp;
                 $fanSpeed = $this->fanSpeedCalculator
                     ->calculate($tempInt);
