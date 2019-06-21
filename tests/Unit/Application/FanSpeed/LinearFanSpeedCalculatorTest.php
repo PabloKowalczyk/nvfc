@@ -9,7 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 final class LinearFanSpeedCalculatorTest extends TestCase
 {
-    public function test_calculator_calculates_fan_speed(): void
+    /** @dataProvider fanSpeedProvider */
+    public function test_calculator_calculates_fan_speed(int $fanSpeed): void
     {
         $calculator = new LinearFanSpeedCalculator(
             0,
@@ -18,9 +19,23 @@ final class LinearFanSpeedCalculatorTest extends TestCase
             100
         );
 
-        $fanSpeed = \random_int(0, 100);
         $temperature = $calculator->calculate($fanSpeed);
 
         $this->assertSame($fanSpeed, $temperature->toInteger());
+    }
+
+    public function fanSpeedProvider(): iterable
+    {
+        $cases = \array_keys(
+            \array_fill(
+                0,
+                100,
+                ''
+            )
+        );
+
+        foreach ($cases as $case) {
+            yield "Temperature: {$case}" => [$case];
+        }
     }
 }
