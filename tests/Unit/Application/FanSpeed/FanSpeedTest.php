@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace NvFanController\Tests\Unit\Application;
+namespace NvFanController\Tests\Unit\Application\FanSpeed;
 
-use NvFanController\Application\FanSpeed;
+use NvFanController\Application\FanSpeed\FanSpeed;
 use PHPUnit\Framework\TestCase;
 
 final class FanSpeedTest extends TestCase

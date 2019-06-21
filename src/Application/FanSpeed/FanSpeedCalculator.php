@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NvFanController\FanSpeed;
-
-use NvFanController\Application\FanSpeed;
+namespace NvFanController\Application\FanSpeed;
 
 interface FanSpeedCalculator
 {

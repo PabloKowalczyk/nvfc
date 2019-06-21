@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace NvFanController\UserInterface;
 
-use NvFanController\Application\FanSpeed;
+use NvFanController\Application\FanSpeed\FanSpeed;
+use NvFanController\Application\FanSpeed\LinearFanSpeedCalculator;
 use NvFanController\Application\Interval;
 use NvFanController\Application\Temperature;
 use NvFanController\FanController;
-use NvFanController\FanSpeed\LinearFanSpeedCalculator;
 use NvFanController\Infrastructure\React\Promise\ReactPromiseFactory;
 use NvFanController\Infrastructure\ReactNvidiaSettings;
 use React\EventLoop\Factory;

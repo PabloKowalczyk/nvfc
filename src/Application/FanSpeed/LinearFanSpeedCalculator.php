@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NvFanController\FanSpeed;
-
-use NvFanController\Application\FanSpeed;
+namespace NvFanController\Application\FanSpeed;
 
 final class LinearFanSpeedCalculator implements FanSpeedCalculator
 {
@@ -48,7 +46,9 @@ final class LinearFanSpeedCalculator implements FanSpeedCalculator
         }
 
         $percent = (($temperature - $this->startTemp) / ($this->endTemp - $this->startTemp));
+        $fanSpeedDelta = $this->endFanSpeed - $this->startFanSpeed;
+        $resultFanSpeed = \round(($percent * $fanSpeedDelta) + $this->startFanSpeed);
 
-        return FanSpeed::fromInteger((int) (($percent * ($this->endFanSpeed - $this->startFanSpeed)) + $this->startFanSpeed));
+        return FanSpeed::fromInteger((int) $resultFanSpeed);
     }
 }
