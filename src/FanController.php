@@ -40,6 +40,30 @@ final class FanController
 
     public function __invoke(): void
     {
+        $rpmResolver = function (callable $resolve, callable $reject): void {
+            $rpm = '';
+            $process = new Process('nvidia-settings -q GPUCurrentFanSpeedRPM');
+            $process->start($this->loop);
+            $process->stdout->on('data', static function (string $chunk) use (&$rpm): void {
+                $rpm .= \trim($chunk);
+            });
+
+            $process->on(
+                'exit',
+                static function () use (&$rpm, $resolve): void {
+                    $lines = \explode('.', $rpm);
+                    $lines = \explode(']): ', $lines[0] ?? '');
+
+                    $validatedRpm = \filter_var($lines[1] ?? '0', FILTER_VALIDATE_INT);
+
+                    $resolve($validatedRpm);
+                }
+            );
+        };
+
+        $rpmPromise = $this->promiseFactory
+            ->create($rpmResolver);
+
         $resolver = function (callable $resolve, callable $reject): void {
             $temp = '';
             $process = new Process("nvidia-settings -q GPUCoreTemp |awk -F \":\" 'NR==2{print $3}' |sed 's/[^0-9]*//g'");
@@ -51,17 +75,29 @@ final class FanController
             $process->on(
                 'exit',
                 static function () use (&$temp, $resolve): void {
-                    $resolve($temp);
+                    $validatedTemp = \filter_var($temp, FILTER_VALIDATE_INT);
+
+                    $resolve($validatedTemp);
                 }
             );
         };
-        $promise = $this->promiseFactory
+        $tempPromise = $this->promiseFactory
             ->create($resolver);
-        $promise->then(
-            function (string $temp): void {
-                $tempInt = (int) $temp;
+
+        $allPromises = $this->promiseFactory
+            ->all(
+                [
+                    'rpm' => $rpmPromise,
+                    'temp' => $tempPromise,
+                ]
+            );
+
+        $allPromises->then(
+            function (array $data): void {
+                $temp = $data['temp'] ?? 0;
+                $rpm = $data['rpm'] ?? 0;
                 $fanSpeed = $this->fanSpeedCalculator
-                    ->calculate($tempInt);
+                    ->calculate($temp);
 
                 $this->nvidiaSettings
                     ->changeFanSpeed($fanSpeed);
@@ -69,7 +105,7 @@ final class FanController
                 $now = new \DateTimeImmutable();
                 $this->writableStream
                     ->write(
-                        "[{$now->format('Y-m-d H:i:s.u')}] GPU temp: {$tempInt}; Fan speed: {$fanSpeed->toString()}" . PHP_EOL
+                        "[{$now->format('Y-m-d H:i:s.u')}] GPU temp: {$temp}; Fan speed: {$fanSpeed->toString()}; Fan RPM: {$rpm}" . PHP_EOL
                     );
             }
         );
