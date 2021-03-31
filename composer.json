@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4 || ^8.0",
         "ext-pcntl": "*",
         "react/child-process": "^0.6.1",
         "react/event-loop": "^1.1",
