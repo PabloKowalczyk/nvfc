@@ -47,6 +47,6 @@ if (false === $autoloadFileFound) {
     throw new RuntimeException($message);
 }
 
-$application = new Application('NVidia Fan Controller', 'v0.1.2');
+$application = new Application('NVidia Fan Controller', 'v0.2.0');
 $application->add(new \NvFanController\UserInterface\WatchCommand());
 $application->run();

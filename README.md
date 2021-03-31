@@ -4,7 +4,7 @@ Written in PHP, fan speed controller for Nvidia graphic cards.
 
 ### Requirements
 
-- PHP 7.2+
+- PHP 7.4+ or 8.0+
 - Linux OS
 - `nvidia-setting` binary, from Nvidia Linux drivers
 
