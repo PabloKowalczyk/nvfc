@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4 || ^8.0",
         "ext-pcntl": "*",
         "react/child-process": "^0.6.1",
         "react/event-loop": "^1.1",
@@ -19,8 +19,8 @@
         "symfony/process": "^5.2"
     },
     "require-dev": {
+        "ergebnis/composer-normalize": "^2.13",
         "friendsofphp/php-cs-fixer": "^2.15",
-        "localheinz/composer-normalize": "^2.13",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
         "symfony/var-dumper": "^5.2"
