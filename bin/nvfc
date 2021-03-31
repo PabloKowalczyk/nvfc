@@ -36,12 +36,15 @@ foreach ($autoloadPaths as $autoloadPath) {
 }
 
 if (false === $autoloadFileFound) {
-    throw new RuntimeException(
-        \sprintf(
-            'Unable to find "autoload.php" file in paths: "%s".',
-            \implode('", "', $autoloadPaths)
+    $message = \sprintf(
+        'Unable to find "autoload.php" file in paths: "%s".',
+        \implode(
+            '", "',
+            $autoloadPaths
         )
     );
+
+    throw new RuntimeException($message);
 }
 
 $application = new Application('NVidia Fan Controller', 'v0.1.2');
