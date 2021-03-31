@@ -15,15 +15,15 @@
         "react/event-loop": "^1.1",
         "react/promise": "^2.7",
         "react/stream": "^1.1",
-        "symfony/console": "^4.2",
-        "symfony/process": "^4.2"
+        "symfony/console": "^5.2",
+        "symfony/process": "^5.2"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.15",
-        "localheinz/composer-normalize": "^1.2",
+        "localheinz/composer-normalize": "^2.13",
         "phpunit/phpunit": "^8.2",
-        "roave/security-advisories": "dev-master",
-        "symfony/var-dumper": "^4.2"
+        "roave/security-advisories": "dev-latest",
+        "symfony/var-dumper": "^5.2"
     },
     "autoload": {
         "psr-4": {
