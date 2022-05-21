@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+use Composer\InstalledVersions;
 use NvFanController\UserInterface\WatchCommand;
 use Symfony\Component\Console\Application;
 
@@ -46,6 +47,9 @@ if (false === $autoloadFileFound) {
     throw new RuntimeException($message);
 }
 
-$application = new Application('NVidia Fan Controller', 'v0.2.0');
+$application = new Application(
+    'NVidia Fan Controller',
+    InstalledVersions::getPrettyVersion('pablok/nvfc'),
+);
 $application->add(new WatchCommand());
 $application->run();
