@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+use NvFanController\UserInterface\WatchCommand;
 use Symfony\Component\Console\Application;
 
 $generatePath = static function (string ...$parts) {
@@ -48,5 +49,5 @@ if (false === $autoloadFileFound) {
 }
 
 $application = new Application('NVidia Fan Controller', 'v0.2.0');
-$application->add(new \NvFanController\UserInterface\WatchCommand());
+$application->add(new WatchCommand());
 $application->run();

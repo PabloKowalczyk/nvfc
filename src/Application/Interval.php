@@ -6,8 +6,7 @@ namespace NvFanController\Application;
 
 final class Interval
 {
-    /** @var float */
-    private $interval;
+    private float $interval;
 
     private function __construct(float $interval)
     {

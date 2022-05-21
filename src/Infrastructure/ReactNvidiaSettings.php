@@ -12,10 +12,8 @@ use Symfony\Component\Process\Process;
 
 final class ReactNvidiaSettings implements NvidiaSettingsInterface
 {
-    /** @var string */
-    private $version;
-    /** @var LoopInterface */
-    private $loop;
+    private string $version;
+    private LoopInterface $loop;
 
     public function __construct(LoopInterface $loop)
     {

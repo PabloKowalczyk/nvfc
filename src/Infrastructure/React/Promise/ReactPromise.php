@@ -10,8 +10,7 @@ use React\Promise\PromiseInterface as ReactPromiseInterface;
 
 final class ReactPromise implements PromiseInterface
 {
-    /** @var Promise */
-    private $promise;
+    private ReactPromiseInterface $promise;
 
     private function __construct(ReactPromiseInterface $promise)
     {

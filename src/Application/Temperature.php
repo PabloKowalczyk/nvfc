@@ -6,8 +6,7 @@ namespace NvFanController\Application;
 
 final class Temperature
 {
-    /** @var int */
-    private $temperature;
+    private int $temperature;
 
     private function __construct(int $temperature)
     {

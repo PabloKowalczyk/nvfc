@@ -6,14 +6,10 @@ namespace NvFanController\Application\FanSpeed;
 
 final class LinearFanSpeedCalculator implements FanSpeedCalculator
 {
-    /** @var int */
-    private $startTemp;
-    /** @var int */
-    private $startFanSpeed;
-    /** @var int */
-    private $endTemp;
-    /** @var int */
-    private $endFanSpeed;
+    private int $startTemp;
+    private int $startFanSpeed;
+    private int $endTemp;
+    private int $endFanSpeed;
 
     public function __construct(
         int $startTemp,

@@ -6,8 +6,7 @@ namespace NvFanController\Application\FanSpeed;
 
 final class FanSpeed
 {
-    /** @var int */
-    private $fanSpeed;
+    private int $fanSpeed;
 
     private function __construct(int $fanSpeed)
     {
