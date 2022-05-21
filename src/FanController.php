@@ -7,6 +7,7 @@ namespace NvFanController;
 use NvFanController\Application\FanSpeed\FanSpeedCalculator;
 use NvFanController\Application\NvidiaSettingsInterface;
 use NvFanController\Application\Promise\PromiseFactoryInterface;
+use NvFanController\Application\Promise\PromiseInterface;
 use React\ChildProcess\Process;
 use React\EventLoop\LoopInterface;
 use React\Stream\WritableStreamInterface;
@@ -40,74 +41,67 @@ final class FanController
 
     public function __invoke(): void
     {
-        $rpmResolver = function (callable $resolve, callable $reject): void {
-            $rpm = '';
-            $process = new Process('nvidia-settings -q GPUCurrentFanSpeedRPM');
-            $process->start($this->loop);
-            $process->stdout->on('data', static function (string $chunk) use (&$rpm): void {
-                $rpm .= \trim($chunk);
-            });
-
-            $process->on(
-                'exit',
-                static function () use (&$rpm, $resolve): void {
-                    $lines = \explode('.', $rpm);
-                    $lines = \explode(']): ', $lines[0] ?? '');
-
-                    $validatedRpm = \filter_var($lines[1] ?? '0', FILTER_VALIDATE_INT);
-
-                    $resolve($validatedRpm);
-                }
-            );
-        };
-
-        $rpmPromise = $this->promiseFactory
-            ->create($rpmResolver);
-
-        $resolver = function (callable $resolve, callable $reject): void {
-            $temp = '';
-            $process = new Process("nvidia-settings -q GPUCoreTemp |awk -F \":\" 'NR==2{print $3}' |sed 's/[^0-9]*//g'");
-            $process->start($this->loop);
-            $process->stdout->on('data', static function (string $chunk) use (&$temp): void {
-                $temp .= \trim($chunk);
-            });
-
-            $process->on(
-                'exit',
-                static function () use (&$temp, $resolve): void {
-                    $validatedTemp = \filter_var($temp, FILTER_VALIDATE_INT);
-
-                    $resolve($validatedTemp);
-                }
-            );
-        };
-        $tempPromise = $this->promiseFactory
-            ->create($resolver);
-
-        $allPromises = $this->promiseFactory
+        $rpmPromise = $this->createFetchIntAttributePromise('GPUCurrentFanSpeedRPM');
+        $temperaturPromise = $this->createFetchIntAttributePromise('GPUCoreTemp');
+        $promises = $this->promiseFactory
             ->all(
                 [
                     'rpm' => $rpmPromise,
-                    'temp' => $tempPromise,
+                    'temperature' => $temperaturPromise,
                 ]
-            );
+            )
+        ;
 
-        $allPromises->then(
+        $promises->then(
             function (array $data): void {
-                $temp = $data['temp'] ?? 0;
+                $temperature = $data['temperature'] ?? 0;
                 $rpm = $data['rpm'] ?? 0;
                 $fanSpeed = $this->fanSpeedCalculator
-                    ->calculate($temp);
-
+                    ->calculate($temperature)
+                ;
                 $this->nvidiaSettings
-                    ->changeFanSpeed($fanSpeed);
-
+                    ->changeFanSpeed($fanSpeed)
+                ;
                 $now = new \DateTimeImmutable();
                 $this->writableStream
                     ->write(
-                        "[{$now->format('Y-m-d H:i:s.u')}] GPU temp: {$temp}; Fan speed: {$fanSpeed->toString()}; Fan RPM: {$rpm}" . PHP_EOL
-                    );
+                        "[{$now->format('Y-m-d H:i:s.u')}] GPU temp: {$temperature}; Fan speed: {$fanSpeed->toString()}; Fan RPM: {$rpm}" . PHP_EOL
+                    )
+                ;
             }
         );
+    }
+
+    private function createFetchIntAttributePromise(string $name): PromiseInterface
+    {
+        $resolver = function (callable $resolve, callable $reject) use ($name): void {
+            $returnValue = '';
+            $process = new Process("nvidia-settings -t -q {$name}");
+            $process->start($this->loop);
+            $process->stdout
+                ->on(
+                    'data',
+                    static function (string $chunk) use (&$returnValue): void {
+                        $returnValue .= \trim($chunk);
+                    }
+                )
+            ;
+
+            $process->on(
+                'exit',
+                static function () use (&$returnValue, $resolve): void {
+                    $resolve(
+                        \filter_var(
+                            $returnValue,
+                            FILTER_VALIDATE_INT,
+                        ),
+                    );
+                }
+            );
+        };
+
+        return $this->promiseFactory
+            ->create($resolver)
+        ;
     }
 }
