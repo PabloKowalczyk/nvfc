@@ -12,12 +12,9 @@ use Symfony\Component\Process\Process;
 
 final class ReactNvidiaSettings implements NvidiaSettingsInterface
 {
-    /** @var string */
-    private $version;
-    /** @var LoopInterface */
-    private $loop;
+    private readonly string $version;
 
-    public function __construct(LoopInterface $loop)
+    public function __construct(private readonly LoopInterface $loop)
     {
         $versionProcess = new Process(['nvidia-settings', '-v']);
         $versionProcess->run();
@@ -36,7 +33,6 @@ final class ReactNvidiaSettings implements NvidiaSettingsInterface
         }
 
         $this->version = $version;
-        $this->loop = $loop;
     }
 
     public function enableFanControl(): void

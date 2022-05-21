@@ -6,12 +6,8 @@ namespace NvFanController\Application\FanSpeed;
 
 final class FanSpeed
 {
-    /** @var int */
-    private $fanSpeed;
-
-    private function __construct(int $fanSpeed)
+    private function __construct(private readonly int $fanSpeed)
     {
-        $this->fanSpeed = $fanSpeed;
     }
 
     public static function fromInteger(int $fanSpeed): self

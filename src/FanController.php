@@ -14,29 +14,13 @@ use React\Stream\WritableStreamInterface;
 
 final class FanController
 {
-    /** @var FanSpeedCalculator */
-    private $fanSpeedCalculator;
-    /** @var LoopInterface */
-    private $loop;
-    /** @var WritableStreamInterface */
-    private $writableStream;
-    /** @var NvidiaSettingsInterface */
-    private $nvidiaSettings;
-    /** @var PromiseFactoryInterface */
-    private $promiseFactory;
-
     public function __construct(
-        FanSpeedCalculator $fanSpeedCalculator,
-        LoopInterface $loop,
-        WritableStreamInterface $writableStream,
-        NvidiaSettingsInterface $nvidiaSettings,
-        PromiseFactoryInterface $promiseFactory
+        private readonly FanSpeedCalculator $fanSpeedCalculator,
+        private readonly LoopInterface $loop,
+        private readonly WritableStreamInterface $writableStream,
+        private readonly NvidiaSettingsInterface $nvidiaSettings,
+        private readonly PromiseFactoryInterface $promiseFactory
     ) {
-        $this->fanSpeedCalculator = $fanSpeedCalculator;
-        $this->loop = $loop;
-        $this->writableStream = $writableStream;
-        $this->nvidiaSettings = $nvidiaSettings;
-        $this->promiseFactory = $promiseFactory;
     }
 
     public function __invoke(): void

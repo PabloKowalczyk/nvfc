@@ -11,7 +11,7 @@ use NvFanController\Application\Temperature;
 use NvFanController\FanController;
 use NvFanController\Infrastructure\React\Promise\ReactPromiseFactory;
 use NvFanController\Infrastructure\ReactNvidiaSettings;
-use React\EventLoop\Factory;
+use React\EventLoop\Loop;
 use React\Stream\WritableResourceStream;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -72,7 +72,7 @@ final class WatchCommand extends Command
         $startTemperature = Temperature::fromString((string) $input->getOption('start-temp'));
         $endTemperature = Temperature::fromString((string) $input->getOption('end-temp'));
 
-        $loop = Factory::create();
+        $loop = Loop::get();
 
         $nvidiaSettings = new ReactNvidiaSettings($loop);
         $nvidiaSettings->enableFanControl();
