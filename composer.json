@@ -9,14 +9,14 @@
         "fan-controller"
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.1",
         "ext-pcntl": "*",
         "react/child-process": "^0.6.1",
         "react/event-loop": "^1.1",
         "react/promise": "^2.7",
         "react/stream": "^1.1",
-        "symfony/console": "^5.2",
-        "symfony/process": "^5.2"
+        "symfony/console": "^6.0",
+        "symfony/process": "^6.0"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.13",
