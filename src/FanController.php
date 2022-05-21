@@ -9,14 +9,12 @@ use NvFanController\Application\NvidiaSettingsInterface;
 use NvFanController\Application\Promise\PromiseFactoryInterface;
 use NvFanController\Application\Promise\PromiseInterface;
 use React\ChildProcess\Process;
-use React\EventLoop\LoopInterface;
 use React\Stream\WritableStreamInterface;
 
 final class FanController
 {
     public function __construct(
         private readonly FanSpeedCalculator $fanSpeedCalculator,
-        private readonly LoopInterface $loop,
         private readonly WritableStreamInterface $writableStream,
         private readonly NvidiaSettingsInterface $nvidiaSettings,
         private readonly PromiseFactoryInterface $promiseFactory
@@ -61,7 +59,7 @@ final class FanController
         $resolver = function (callable $resolve, callable $reject) use ($name): void {
             $returnValue = '';
             $process = new Process("nvidia-settings -t -q {$name}");
-            $process->start($this->loop);
+            $process->start();
             $process->stdout
                 ->on(
                     'data',

@@ -71,10 +71,7 @@ final class WatchCommand extends Command
         $endFanSpeed = FanSpeed::fromString((string) $input->getOption('end-fan'));
         $startTemperature = Temperature::fromString((string) $input->getOption('start-temp'));
         $endTemperature = Temperature::fromString((string) $input->getOption('end-temp'));
-
-        $loop = Loop::get();
-
-        $nvidiaSettings = new ReactNvidiaSettings($loop);
+        $nvidiaSettings = new ReactNvidiaSettings();
         $nvidiaSettings->enableFanControl();
 
         $output->writeln(
@@ -88,16 +85,16 @@ final class WatchCommand extends Command
             $endTemperature->toInteger(),
             $endFanSpeed->toInteger()
         );
-        $writeStream = new WritableResourceStream(STDOUT, $loop);
+        $writeStream = new WritableResourceStream(STDOUT);
         $promiseFactory = new ReactPromiseFactory();
         $fanController = new FanController(
             $fanSpeedCalculator,
-            $loop,
             $writeStream,
             $nvidiaSettings,
-            $promiseFactory
+            $promiseFactory,
         );
 
+        $loop = Loop::get();
         $loop->addTimer(0, $fanController);
         $loop->addPeriodicTimer($interval->toFloat(), $fanController);
         $loop->addSignal(SIGINT, function () use ($loop, $output): void {

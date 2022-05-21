@@ -4,7 +4,7 @@
 use NvFanController\UserInterface\WatchCommand;
 use Symfony\Component\Console\Application;
 
-$generatePath = static fn(string ...$parts) => \implode(DIRECTORY_SEPARATOR, $parts);
+$generatePath = static fn (string ...$parts) => \implode(DIRECTORY_SEPARATOR, $parts);
 $autoloadPaths = [
     // Dependency
     $generatePath(
