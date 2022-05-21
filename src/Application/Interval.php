@@ -6,12 +6,8 @@ namespace NvFanController\Application;
 
 final class Interval
 {
-    /** @var float */
-    private $interval;
-
-    private function __construct(float $interval)
+    private function __construct(private readonly float $interval)
     {
-        $this->interval = $interval;
     }
 
     public static function fromString(string $interval): self

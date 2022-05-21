@@ -6,7 +6,7 @@ namespace NvFanController\Application\Promise;
 
 interface PromiseFactoryInterface
 {
-    public function create(callable $resolver, callable $canceller = null): PromiseInterface;
+    public function create(\Closure $resolver, \Closure $canceller = null): PromiseInterface;
 
     /** @param array<string,PromiseInterface> $promises */
     public function all(array $promises): PromiseInterface;

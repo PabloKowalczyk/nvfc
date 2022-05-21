@@ -6,5 +6,5 @@ namespace NvFanController\Application\Promise;
 
 interface PromiseInterface
 {
-    public function then(callable $onFulfilled = null, callable $onRejected = null): PromiseInterface;
+    public function then(\Closure $onFulfilled = null, \Closure $onRejected = null): PromiseInterface;
 }

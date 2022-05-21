@@ -10,15 +10,11 @@ use React\Promise\PromiseInterface as ReactPromiseInterface;
 
 final class ReactPromise implements PromiseInterface
 {
-    /** @var Promise */
-    private $promise;
-
-    private function __construct(ReactPromiseInterface $promise)
+    private function __construct(private readonly ReactPromiseInterface $promise)
     {
-        $this->promise = $promise;
     }
 
-    public static function fromCallables(callable $resolver, callable $canceller = null): self
+    public static function fromCallables(\Closure $resolver, \Closure $canceller = null): self
     {
         return new self(new Promise($resolver, $canceller));
     }
@@ -28,10 +24,11 @@ final class ReactPromise implements PromiseInterface
         return new self($promise);
     }
 
-    public function then(callable $onFulfilled = null, callable $onRejected = null): PromiseInterface
+    public function then(\Closure $onFulfilled = null, \Closure $onRejected = null): PromiseInterface
     {
         $promise = $this->promise
-            ->then($onFulfilled, $onRejected);
+            ->then($onFulfilled, $onRejected)
+        ;
 
         return self::fromPromise($promise);
     }

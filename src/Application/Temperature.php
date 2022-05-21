@@ -6,12 +6,8 @@ namespace NvFanController\Application;
 
 final class Temperature
 {
-    /** @var int */
-    private $temperature;
-
-    private function __construct(int $temperature)
+    private function __construct(private readonly int $temperature)
     {
-        $this->temperature = $temperature;
     }
 
     public static function fromString(string $temperature): self

@@ -6,18 +6,14 @@ namespace NvFanController\Infrastructure;
 
 use NvFanController\Application\FanSpeed\FanSpeed;
 use NvFanController\Application\NvidiaSettingsInterface;
-use React\EventLoop\LoopInterface;
 use RuntimeException;
 use Symfony\Component\Process\Process;
 
 final class ReactNvidiaSettings implements NvidiaSettingsInterface
 {
-    /** @var string */
-    private $version;
-    /** @var LoopInterface */
-    private $loop;
+    private readonly string $version;
 
-    public function __construct(LoopInterface $loop)
+    public function __construct()
     {
         $versionProcess = new Process(['nvidia-settings', '-v']);
         $versionProcess->run();
@@ -36,7 +32,6 @@ final class ReactNvidiaSettings implements NvidiaSettingsInterface
         }
 
         $this->version = $version;
-        $this->loop = $loop;
     }
 
     public function enableFanControl(): void
@@ -59,7 +54,7 @@ final class ReactNvidiaSettings implements NvidiaSettingsInterface
         $changeFanSpeed->on('error', static function (): void {
             throw new \Exception('Unable to change fan speed');
         });
-        $changeFanSpeed->start($this->loop);
+        $changeFanSpeed->start();
     }
 
     public function version(): string

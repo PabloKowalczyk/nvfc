@@ -10,7 +10,7 @@ use function React\Promise\all;
 
 final class ReactPromiseFactory implements PromiseFactoryInterface
 {
-    public function create(callable $resolver, callable $canceller = null): PromiseInterface
+    public function create(\Closure $resolver, \Closure $canceller = null): PromiseInterface
     {
         return ReactPromise::fromCallables($resolver, $canceller);
     }

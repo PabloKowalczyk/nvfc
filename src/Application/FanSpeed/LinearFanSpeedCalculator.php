@@ -6,26 +6,12 @@ namespace NvFanController\Application\FanSpeed;
 
 final class LinearFanSpeedCalculator implements FanSpeedCalculator
 {
-    /** @var int */
-    private $startTemp;
-    /** @var int */
-    private $startFanSpeed;
-    /** @var int */
-    private $endTemp;
-    /** @var int */
-    private $endFanSpeed;
-
     public function __construct(
-        int $startTemp,
-        int $startFanSpeed,
-        int $endTemp,
-        int $endFanSpeed
+        private readonly int $startTemp,
+        private readonly int $startFanSpeed,
+        private readonly int $endTemp,
+        private readonly int $endFanSpeed
     ) {
-        $this->startTemp = $startTemp;
-        $this->startFanSpeed = $startFanSpeed;
-        $this->endTemp = $endTemp;
-        $this->endFanSpeed = $endFanSpeed;
-
         if ($startTemp > $endTemp) {
             throw new \InvalidArgumentException('Start temp is higher than end');
         }
